@@ -17,21 +17,6 @@
 ```javascript
 var widget = new Fg('widget-name', {
   data: {
-    title: {
-      selector: 'h1',
-      data: 'My Title'
-    },
-    content: {
-      selector: 'div.content',
-      data: 'Lorem hipsum...'
-    }
-  }
-});
-```
-or
-```javascript
-var widget = new Fg('widget-name', {
-  data: {
     title: 'My Title',
     content: 'Lorem hipsum...'
     }
@@ -99,22 +84,6 @@ widget.data.title = 'New Title';
 </body>
 ```
 
-```javascript
-var widget = new Fg('widget-name', {
-  data: {
-    title: {
-      selector: 'input[type=checkbox]',
-      data: 'My Title'
-    },
-    checkboxStatus: {
-      selector: 'input',
-      attribute: 'checked',
-      data: false
-    }
-  }
-});
-```
-or
 ```javascript
 var widget = new Fg('widget-name', {
   data: {
