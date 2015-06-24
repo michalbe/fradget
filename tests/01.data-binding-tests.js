@@ -24,14 +24,22 @@ module('data binding test',{
   }
 });
 
-test('data population', function() {
+test('data propagation', function() {
   equal(this.$qf.find('h1').html(), 'Test title',
     'Title was properly rendered in HTML'
   );
+  equal(this.$qf.find('div.content').html(), 'test content',
+    'Content was properly rendered in HTML'
+  );
 
   this.widget.data.title = 'New super title!';
-
   equal(this.$qf.find('h1').html(), 'New super title!',
     'Title was properly propagated & rendered in HTML'
   );
+
+  this.widget.data.content = 'Lorem ipsum!';
+  equal(this.$qf.find('div.content').html(), 'Lorem ipsum!',
+    'Content was properly propagated & rendered in HTML'
+  );
+
 });
