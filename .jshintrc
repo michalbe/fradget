@@ -8,6 +8,7 @@
   "nonew": true,
   "quotmark": "single",
   "undef": true,
+  "sub": true,
   "unused": "vars",
   "strict": true,
   "trailing": true,
