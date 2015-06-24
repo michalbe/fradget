@@ -1,39 +1,63 @@
-/* exported Fg */
-'use strict';
+(function(Object, document){
+  'use strict';
+  //document.querySelectorAll('[data-fg="' + name + '"]');
+  var buildProperty = function(obj, propertyName, propertyValue, widgetName){
+    var _selector;
+    var _widgetName;
+    Object.defineProperty(obj, propertyName, {
+      get: function(){
+        return {
+          bindTo: function(selector) {
+            _selector = selector;
+            _widgetName = widgetName;
 
-var buildProperty = function(obj, propertyName, propertyValue, widget){
-  var _selector;
-  Object.defineProperty(obj, propertyName, {
-    get: function(){
-      return {
-        bindTo: function(selector) {
-          _selector = selector;
-          this.element = widget.querySelector(selector);
-          this.element.innerHTML = propertyValue;
-        }
-      };
-    },
-    set: function(value) {
-      this.element = widget.querySelector(_selector);
-      this.element.innerHTML = value;
+            var widgets = Array.prototype.slice.call(
+              document.querySelectorAll('[data-fg="' + widgetName + '"]')
+            );
+            widgets.forEach(function(widget){
+              var elements = Array.prototype.slice.call(
+                widget.querySelectorAll(selector)
+              );
+              elements.forEach(function(element){
+                element.innerHTML = propertyValue;
+              });
+            });
+          }
+        };
+      },
+      set: function(value) {
+        var widgets = Array.prototype.slice.call(
+          document.querySelectorAll('[data-fg="' + _widgetName + '"]')
+        );
+        widgets.forEach(function(widget){
+          var elements = Array.prototype.slice.call(
+            widget.querySelectorAll(_selector)
+          );
+          elements.forEach(function(element) {
+            element.innerHTML = value;
+          });
+        });
+      }
+    });
+  };
+
+  var Fg = function(name, options){
+    var fg = {};
+    var data = {};
+    for (var option in options.data) {
+      buildProperty(data, option, options.data[option], name);
     }
-  });
-};
 
-var Fg = function(name, options){
-  var widget = document.querySelector('[data-fg="' + name + '"]');
-  var data = {};
-  for (var option in options.data) {
-    buildProperty(data, option, options.data[option], widget);
-  }
+    fg.data = data;
+    Object.defineProperty(fg, 'element', {
+      get: function(){
+        return document.querySelector('[data-fg="' + name + '"]')
+              .cloneNode(true);
+      }
+    });
 
-  //widget = widget.cloneNode(true);
-  widget.data = data;
-  Object.defineProperty(widget, 'element', {
-    get: function(){
-      return widget.cloneNode(true);
-    }
-  });
+    return fg;
+  };
 
-  return widget;
-};
+  return Fg;
+})(Object, document);
