@@ -12,6 +12,10 @@ var buildProperty = function(obj, propertyName, propertyValue, widget){
           this.element.innerHTML = propertyValue;
         }
       };
+    },
+    set: function(value) {
+      this.element = widget.querySelector(_selector);
+      this.element.innerHTML = value;
     }
   });
 };
