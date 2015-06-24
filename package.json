@@ -1,15 +1,15 @@
 {
-  "name": "fireman",
+  "name": "fradget",
   "version": "0.0.1",
   "author": "Michał Budzyński <michal@virtualdesign.pl>",
-  "repository": "git@github.com:michalbe/fireman.git",
+  "repository": "git@github.com:michalbe/fradget.git",
   "devDependencies": {
     "assert": "^1.1.2",
-    "jshint": "^2.5.5",
+    "jshint": "^2.8.0",
     "precommit-hook": "^1.0.7"
   },
   "scripts": {
-    "test-off": "node tests/fireman-tests.js",
+    "test-off": "",
     "lint": "node node_modules/jshint/bin/jshint ."
   }
 }
