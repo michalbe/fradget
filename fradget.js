@@ -1,5 +1,6 @@
-(function(Object, document){
-  'use strict';
+/* exported Fg */
+'use strict';
+var Fg = (function(){
   //document.querySelectorAll('[data-fg="' + name + '"]');
   var buildProperty = function(obj, propertyName, propertyValue, widgetName){
     var _selector;
@@ -60,4 +61,4 @@
   };
 
   return Fg;
-})(Object, document);
+})();
