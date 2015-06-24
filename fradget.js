@@ -1,8 +1,10 @@
-(function(Object, document){
-  'use strict';
+/* exported Fg */
+'use strict';
+var Fg = (function(){
   //document.querySelectorAll('[data-fg="' + name + '"]');
   var buildProperty = function(obj, propertyName, propertyValue, widgetName){
     var _selector;
+    var _attribute;
     var _widgetName;
     Object.defineProperty(obj, propertyName, {
       get: function(){
@@ -22,6 +24,23 @@
                 element.innerHTML = propertyValue;
               });
             });
+          },
+          bindToAttribute: function(selector, attribute) {
+            _selector = selector;
+            _attribute = attribute;
+            _widgetName = widgetName;
+
+            var widgets = Array.prototype.slice.call(
+              document.querySelectorAll('[data-fg="' + widgetName + '"]')
+            );
+            widgets.forEach(function(widget){
+              var elements = Array.prototype.slice.call(
+                widget.querySelectorAll(selector)
+              );
+              elements.forEach(function(element){
+                element[attribute] = propertyValue;
+              });
+            });
           }
         };
       },
@@ -34,7 +53,7 @@
             widget.querySelectorAll(_selector)
           );
           elements.forEach(function(element) {
-            element.innerHTML = value;
+            element[_attribute ? _attribute : 'innerHTML'] = value;
           });
         });
       }
@@ -60,4 +79,4 @@
   };
 
   return Fg;
-})(Object, document);
+})();
