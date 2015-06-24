@@ -64,6 +64,33 @@ test('render more than one widget at the time', function() {
   });
 });
 
+test('bindings with multiple selectors', function() {
+  this.$qf.empty().append(
+    $('<div data-fg="widget-name">' +
+      '<h1></h1>' +
+      '<div class="test-h1"></div>' +
+    '</div>')
+  );
+
+  this.widget = new Fg('widget-name', {
+    data: {
+      title: 'Test title',
+      content: 'test content'
+    }
+  });
+
+  this.widget.data.title.bindTo('h1, div.test-h1');
+
+  equal(this.$qf.find('h1').html(), 'Test title',
+    'Title was properly rendered with first selector'
+  );
+
+  equal(this.$qf.find('div.test-h1').html(), 'Test title',
+    'Title was properly rendered with second selector'
+  );
+});
+
+
 test('append another widget from already created widget', function() {
   this.widget = new Fg('widget-name', {
     data: {
