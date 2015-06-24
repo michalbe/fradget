@@ -9,7 +9,7 @@
     "precommit-hook": "^1.0.7"
   },
   "scripts": {
-    "test": "node tests/fireman-tests.js",
+    "test-off": "node tests/fireman-tests.js",
     "lint": "node node_modules/jshint/bin/jshint ."
   }
 }
