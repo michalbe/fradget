@@ -25,8 +25,12 @@ test('render simple model in HTML', function() {
   this.widget.data.title.bindTo('h1');
   this.widget.data.content.bindTo('div.content');
 
-  equal(this.$qf.find('h1').html(), 'Test title');
-  equal(this.$qf.find('div.content').html(), 'test content');
+  equal(this.$qf.find('h1').html(), 'Test title',
+    'Title was properlu rendered in HTML'
+  );
+  equal(this.$qf.find('div.content').html(), 'test content',
+    'Content is properly rendered in HTML'
+  );
 });
 
 test('append another widget from already created widget', function() {
@@ -42,7 +46,7 @@ test('append another widget from already created widget', function() {
 
   this.$qf[0].appendChild(this.widget.element);
 
-  equal(this.$qf.find('h1').length, 2);
+  equal(this.$qf.find('h1').length, 2, 'Second widget was appended to the DOM');
 });
 //
 // module('bpListSelect UI tests',{
