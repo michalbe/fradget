@@ -2,35 +2,151 @@
 
 ## Basic usage
 
+### Create simple widget
+
 ```html
-<!-- widget.html -->
-<div class="container">
-  <h1></h1>
-  <div></div>
-</div>
+<!-- index.html -->
+<body>
+  <div data-fg="widget-name">
+    <h1></h1>
+    <div class="content"></div>
+  </div>
+</body>
 ```
 
 ```javascript
-var widget = new Fradget('widget.html', {
+var widget = new Fg('widget-name', {
   data: {
-    '.container h1': 'My Title',
-    '.container div': 'Lorem hipsum...'
+    title: {
+      selector: 'h1',
+      data: 'My Title'
+    },
+    content: {
+      selector: 'div.content',
+      data: 'Lorem hipsum...'
+    }
+  }
+});
+```
+or
+```javascript
+var widget = new Fg('widget-name', {
+  data: {
+    title: 'My Title',
+    content: 'Lorem hipsum...'
+    }
   }
 });
 
-document.body.appendChild(widget);
+widget.data.title.bindTo('h1');
+widget.data.content.bindTo('div.content');
 ```
 
 ```html
 <!-- generated output -->
 <body>
-  <div class="container">
+  <div>
     <h1>My Title</h1>
-    <div> Lorem hipsum... </div>
+    <div class="content">Lorem hipsum...</div>
   </div>
 </body>
 ```
 
-Moar examples:
- * [[DOM properties]]
- * [[Observables]]
+### Same widget in different places
+
+```javascript
+document.body.appendChild(widget.element);
+```
+
+```html
+<body>
+  <div>
+    <h1>My Title</h1>
+    <div class="content">Lorem hipsum...</div>
+  </div>
+  <div>
+    <h1>My Title</h1>
+    <div class="content">Lorem hipsum...</div>
+  </div>
+</body>
+```
+
+### Data Bingings
+```javascript
+widget.data.title = 'New Title';
+```
+```html
+<body>
+  <div>
+    <h1>New Title</h1>
+    <div class="content">Lorem hipsum...</div>
+  </div>
+  <div>
+    <h1>New Title</h1>
+    <div class="content">Lorem hipsum...</div>
+  </div>
+</body>
+```
+
+### HTML attributes
+
+```html
+<!-- index.html -->
+<body>
+  <div data-fg="widget-name">
+    <input type="checkbox" class="agreed"></input>
+  </div>
+</body>
+```
+
+```javascript
+var widget = new Fg('widget-name', {
+  data: {
+    title: {
+      selector: 'input[type=checkbox]',
+      data: 'My Title'
+    },
+    checkboxStatus: {
+      selector: 'input',
+      attribute: 'checked',
+      data: false
+    }
+  }
+});
+```
+or
+```javascript
+var widget = new Fg('widget-name', {
+  data: {
+    title:  'My Title',
+    checkboxStatus: false
+  }
+});
+
+widget.data.title.bindTo('h1');
+widget.data.content.bindToAttribute('input', 'checked');
+```
+
+```html
+<!-- generated output -->
+<body>
+  <div>
+    <input type="checkbox" class="agreed" checked="false">My Checkbox</input>
+  </div>
+</body>
+```
+
+```javascript
+// data binding with attributes
+widget.data.checkboxStatus = true;
+```
+
+```html
+<!-- generated output -->
+<body>
+  <div>
+    <h1>My Title</h1>
+    <input type="checkbox" class="agreed" checked="true">My Checkbox</input>
+  </div>
+</body>
+```

@@ -1,6 +1,11 @@
 /* exported Fg */
 'use strict';
-var Fg = (function(){
+window['Fg'] = (function(){
+
+  var makeArray = function(obj){
+    return Array.prototype.slice.call(obj);
+  };
+
   //document.querySelectorAll('[data-fg="' + name + '"]');
   var buildProperty = function(obj, propertyName, propertyValue, widgetName){
     var _selector;
@@ -8,52 +13,38 @@ var Fg = (function(){
     var _widgetName;
     Object.defineProperty(obj, propertyName, {
       get: function(){
+        var bind = function(selector, attribute) {
+          _selector = selector;
+          _attribute = attribute;
+          _widgetName = widgetName;
+
+          var widgets = makeArray(
+            document.querySelectorAll('[data-fg="' + widgetName + '"]')
+          );
+          widgets.forEach(function(widget){
+            var elements = makeArray(
+              widget.querySelectorAll(selector)
+            );
+            elements.forEach(function(element){
+              element[_attribute || 'innerHTML'] = propertyValue;
+            });
+          });
+        };
         return {
-          bindTo: function(selector) {
-            _selector = selector;
-            _widgetName = widgetName;
-
-            var widgets = Array.prototype.slice.call(
-              document.querySelectorAll('[data-fg="' + widgetName + '"]')
-            );
-            widgets.forEach(function(widget){
-              var elements = Array.prototype.slice.call(
-                widget.querySelectorAll(selector)
-              );
-              elements.forEach(function(element){
-                element.innerHTML = propertyValue;
-              });
-            });
-          },
-          bindToAttribute: function(selector, attribute) {
-            _selector = selector;
-            _attribute = attribute;
-            _widgetName = widgetName;
-
-            var widgets = Array.prototype.slice.call(
-              document.querySelectorAll('[data-fg="' + widgetName + '"]')
-            );
-            widgets.forEach(function(widget){
-              var elements = Array.prototype.slice.call(
-                widget.querySelectorAll(selector)
-              );
-              elements.forEach(function(element){
-                element[attribute] = propertyValue;
-              });
-            });
-          }
+          'bindToAttribute': bind,
+          'bindTo': bind
         };
       },
       set: function(value) {
-        var widgets = Array.prototype.slice.call(
+        var widgets = makeArray(
           document.querySelectorAll('[data-fg="' + _widgetName + '"]')
         );
         widgets.forEach(function(widget){
-          var elements = Array.prototype.slice.call(
+          var elements = makeArray(
             widget.querySelectorAll(_selector)
           );
           elements.forEach(function(element) {
-            element[_attribute ? _attribute : 'innerHTML'] = value;
+            element[_attribute || 'innerHTML'] = value;
           });
         });
       }
