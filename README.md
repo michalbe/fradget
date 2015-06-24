@@ -93,7 +93,7 @@ var widget = new Fg('widget-name', {
 });
 
 widget.data.title.bindTo('h1');
-widget.data.content.bindToAttribute('input', 'checked');
+widget.data.checkboxStatus.bindToAttribute('input', 'checked');
 ```
 
 ```html
