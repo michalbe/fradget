@@ -2,14 +2,20 @@
 'use strict';
 
 var buildProperty = function(obj, propertyName, propertyValue, widget){
+  var _selector;
   Object.defineProperty(obj, propertyName, {
     get: function(){
       return {
         bindTo: function(selector) {
+          _selector = selector;
           this.element = widget.querySelector(selector);
           this.element.innerHTML = propertyValue;
         }
       };
+    },
+    set: function(value) {
+      this.element = widget.querySelector(_selector);
+      this.element.innerHTML = value;
     }
   });
 };
@@ -18,11 +24,16 @@ var Fg = function(name, options){
   var widget = document.querySelector('[data-fg="' + name + '"]');
   var data = {};
   for (var option in options.data) {
-    console.log(option);
     buildProperty(data, option, options.data[option], widget);
   }
 
-  return {
-    data: data
-  };
+  //widget = widget.cloneNode(true);
+  widget.data = data;
+  Object.defineProperty(widget, 'element', {
+    get: function(){
+      return widget.cloneNode(true);
+    }
+  });
+
+  return widget;
 };
