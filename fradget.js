@@ -31,8 +31,8 @@ window['Fg'] = (function(){
           });
         };
         return {
-          bindToAttribute: bind,
-          bindTo: bind
+          'bindToAttribute': bind,
+          'bindTo': bind
         };
       },
       set: function(value) {
